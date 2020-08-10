@@ -7,7 +7,6 @@ pipeline {
     stage("Initialize") {
       steps {
         echo "Initialize"
-        ExampleGlobal()
       }
     }
 
@@ -45,7 +44,7 @@ pipeline {
             stage("E2E Test") {
               steps {
                 echo "Run E2E tests on DemoApp"
-                sleep 5
+                CoolFunctionality()
               }
             }
           }
