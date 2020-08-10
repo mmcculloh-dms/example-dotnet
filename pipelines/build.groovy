@@ -27,7 +27,6 @@ pipeline {
       }
       stages {
         stage("Build") {
-          agent { label 'dotnet' }
           steps {
             sh "dotnet restore ${DOT_NET_CORE_APP_SLN}"
             sh "dotnet clean ${DOT_NET_CORE_APP_SLN}"
@@ -59,7 +58,6 @@ pipeline {
             }
 
             stage("Other Tests") {
-              agent { label 'dotnet' }
               steps {
                 sh "dotnet ${DOT_NET_CORE_APP_DLL}"
               }
