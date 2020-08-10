@@ -126,58 +126,6 @@ void getCurrentGitCommitHash() {
   return sh(script: "git rev-parse --verify HEAD", returnStdout: true).trim();
 }
 
-void createCheck() {
-  withCredentials([usernamePassword(credentialsId: 'spaceport-user',
-                                    usernameVariable: 'GITHUB_APP',
-                                    passwordVariable: 'GITHUB_JWT_TOKEN')]) {
-    def output = sh(script: """
-      curl --show-error --fail \
-            -X POST \
-            -H "Content-Type: application/json" \
-            -H "Accept: application/vnd.github.antiope-preview+json" \
-            -H "authorization: Bearer ${GITHUB_JWT_TOKEN}" \
-            -d '{ "name": "${applicationName}", \
-                  "head_sha": "'${GIT_COMMIT}'", \
-                  "details_url": "${RUN_DISPLAY_URL}", \
-                  "status": "in_progress", \
-                  "external_id": "${BUILD_NUMBER}", \
-                  "started_at": "${currentTime}", \
-                  "output": { "title": "Pending check run from Mission Control...", \
-                              "summary": "This is a check run which has been generated from Mission Control using a GitHub App"}}' \
-            https://api.github.com/repos/${repoOwner}/${repoName}/check-runs
-      """, returnStdout: true).trim()
-
-    def json = readJSON text: output
-
-    env.CHECK_RUN_ID=json.id;
-  }
-}
-
-void concludeCheck() {
-  status = currentBuild.resultIsBetterOrEqualTo("SUCCESS") ? (env.CHANGE_DETECTED.toBoolean() ? "success" : "neutral") : "failure";
-  outputTitle = currentBuild.resultIsBetterOrEqualTo("SUCCESS") ? (env.CHANGE_DETECTED.toBoolean() ? "Passed" : "Skipped") : "Failed";
-  outputTitle = outputTitle + " check run from Mission Control."
-  outputSummary = currentBuild.resultIsBetterOrEqualTo("SUCCESS") ? (env.CHANGE_DETECTED.toBoolean() ? "" : "No watched files changed since last sucessful build.") : "";
-  outputSummary = "This is a check run which has been generated from Mission Control using a GitHub App.<br /><br />" + outputSummary
-
-  withCredentials([usernamePassword(credentialsId: 'spaceport-user',
-                                    usernameVariable: 'GITHUB_APP',
-                                    passwordVariable: 'GITHUB_JWT_TOKEN')]) {
-    sh """
-      curl --show-error --fail \
-            -X PATCH \
-            -H "Content-Type: application/json" \
-            -H "Accept: application/vnd.github.antiope-preview+json" \
-            -H "authorization: Bearer ${GITHUB_JWT_TOKEN}" \
-            -d '{ "conclusion": "${status}", \
-                  "completed_at": "${currentTime}", \
-                  "output": { "title": "${outputTitle}", \
-                              "summary": "${outputSummary}"}}' \
-            https://api.github.com/repos/${repoOwner}/${repoName}/check-runs/${CHECK_RUN_ID}
-      """
-  }
-}
-
 def isWatchedPath(def path) {
   return !!path &&
     path ==~ /${DOT_NET_CORE_APP_NAME}\/.*/ &&
@@ -216,9 +164,8 @@ Boolean checkForChanges() {
 void initializeBuildPipeline() {
   env.GIT_COMMIT_HASH = getCurrentGitCommitHash();
   env.CHANGE_DETECTED = checkForChanges();
-  createCheck();
 }
 
 void finalizeBuildPipeline() {
-  concludeCheck();
+  
 }
