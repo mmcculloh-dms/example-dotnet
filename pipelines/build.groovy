@@ -62,6 +62,11 @@ pipeline {
       }
     }
 
-    Finalize()
+    stage("Finalize") {
+      steps {
+        Finalize()
+      }
+    }
+    
   }
 }
