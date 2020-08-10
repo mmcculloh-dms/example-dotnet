@@ -62,10 +62,6 @@ pipeline {
       }
     }
 
-    stage("Finalize") {
-      steps {
-        echo "The final step of the pipeline (not in a conditional)."
-      }
-    }
+    Finalize()
   }
 }
