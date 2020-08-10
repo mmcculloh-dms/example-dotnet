@@ -1,7 +1,6 @@
 pipeline {
   agent {
     kubernetes {
-      label 'dotnet'
       yamlFile 'pipelines/dotnetcoreagent.yaml'
     }
   }
