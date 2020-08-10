@@ -1,5 +1,10 @@
 pipeline {
-  agent any
+  agent {
+    kubernetes {
+      label 'dotnet'
+      yamlFile 'pipelines/dotnetcoreagent.yaml'
+    }
+  }
 
   options {
         timeout(time: 10, unit: 'MINUTES')
@@ -27,12 +32,6 @@ pipeline {
       }
       stages {
         stage("Build") {
-          agent {
-            kubernetes {
-              label 'dotnet'
-              yamlFile 'pipelines/dotnetcoreagent.yaml'
-            }
-          }
           steps {
             container('dotnetcore') {
               sh "ls /usr/local/share/dotnet"
@@ -68,12 +67,6 @@ pipeline {
             }
 
             stage("Other Tests") {
-              agent {
-                kubernetes {
-                  label 'dotnet'
-                  yamlFile 'pipelines/dotnetcoreagent.yaml'
-                }
-              }
               steps {
                 container('dotnetcore') {
                   sh "dotnet ${DOT_NET_CORE_APP_DLL}"
