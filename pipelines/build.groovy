@@ -30,7 +30,7 @@ pipeline {
           agent {
             kubernetes {
               label 'dotnet'
-              yamlFile 'dotnetcoreagent.yaml'
+              yamlFile 'pipelines/dotnetcoreagent.yaml'
             }
           }
           steps {
@@ -67,7 +67,7 @@ pipeline {
               agent {
                 kubernetes {
                   label 'dotnet'
-                  yamlFile 'dotnetcoreagent.yaml'
+                  yamlFile 'pipelines/dotnetcoreagent.yaml'
                 }
               }
               steps {
