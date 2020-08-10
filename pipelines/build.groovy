@@ -22,6 +22,7 @@ pipeline {
     stage("Initialize") {
       steps {
         initializeBuildPipeline()
+        sh "ls /usr/share/dotnet"
       }
     }
 
@@ -32,7 +33,7 @@ pipeline {
       stages {
         stage("Build") {
           steps {
-            sh "ls /usr/share/dotnet"
+            sh "mount"
             sh "dotnet restore ${DOT_NET_CORE_APP_SLN}"
             sh "dotnet clean ${DOT_NET_CORE_APP_SLN}"
             sh "dotnet build ${DOT_NET_CORE_APP_SLN} --configuration ${DOT_NET_CORE_BUILD_CONFIGURATION}"
