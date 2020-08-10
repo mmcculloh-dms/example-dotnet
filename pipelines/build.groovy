@@ -127,7 +127,7 @@ void getCurrentGitCommitHash() {
 }
 
 void createCheck() {
-  withCredentials([usernamePassword(credentialsId: 'github-app-jenkinsrd',
+  withCredentials([usernamePassword(credentialsId: 'spaceport-user',
                                     usernameVariable: 'GITHUB_APP',
                                     passwordVariable: 'GITHUB_JWT_TOKEN')]) {
     def output = sh(script: """
@@ -160,7 +160,7 @@ void concludeCheck() {
   outputSummary = currentBuild.resultIsBetterOrEqualTo("SUCCESS") ? (env.CHANGE_DETECTED.toBoolean() ? "" : "No watched files changed since last sucessful build.") : "";
   outputSummary = "This is a check run which has been generated from Mission Control using a GitHub App.<br /><br />" + outputSummary
 
-  withCredentials([usernamePassword(credentialsId: 'github-app-jenkinsrd',
+  withCredentials([usernamePassword(credentialsId: 'spaceport-user',
                                     usernameVariable: 'GITHUB_APP',
                                     passwordVariable: 'GITHUB_JWT_TOKEN')]) {
     sh """
