@@ -34,6 +34,8 @@ pipeline {
             }
           }
           steps {
+            sh "ls /usr/local/share/dotnet"
+            sh "export PATH=/usr/local/share/dotnet:$PATH"
             sh "dotnet restore ${DOT_NET_CORE_APP_SLN}"
             sh "dotnet clean ${DOT_NET_CORE_APP_SLN}"
             sh "dotnet build ${DOT_NET_CORE_APP_SLN} --configuration ${DOT_NET_CORE_BUILD_CONFIGURATION}"
