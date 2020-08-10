@@ -27,6 +27,12 @@ pipeline {
       }
       stages {
         stage("Build") {
+          agent {
+            kubernetes {
+              label 'dotnet'
+              yamlFile 'dotnetcoreagent.yaml'
+            }
+          }
           steps {
             sh "dotnet restore ${DOT_NET_CORE_APP_SLN}"
             sh "dotnet clean ${DOT_NET_CORE_APP_SLN}"
@@ -58,6 +64,12 @@ pipeline {
             }
 
             stage("Other Tests") {
+              agent {
+                kubernetes {
+                  label 'dotnet'
+                  yamlFile 'dotnetcoreagent.yaml'
+                }
+              }
               steps {
                 sh "dotnet ${DOT_NET_CORE_APP_DLL}"
               }
