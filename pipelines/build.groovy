@@ -1,10 +1,13 @@
+@Library('vab') _
+
 pipeline {
   agent any
 
   stages {
     stage("Initialize") {
       steps {
-        echo Initialize
+        echo "Initialize"
+        ExampleGlobal()
       }
     }
 
