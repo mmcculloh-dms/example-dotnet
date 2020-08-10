@@ -4,7 +4,7 @@ metadata:
 spec:
   containers:
   - name: dotnetcore
-    image: valorekhov/jnlp-slave-dotnet-core:2.0.0-sdk
+    image: jenkins/jnlp-agent-coresdk:3.1
     tty: true
     command:
     - cat
