@@ -33,13 +33,9 @@ pipeline {
       stages {
         stage("Build") {
           steps {
-            container('dotnetcore') {
-              sh "ls /usr/local/share/dotnet"
-              sh "export PATH=/usr/local/share/dotnet:$PATH"
-              sh "dotnet restore ${DOT_NET_CORE_APP_SLN}"
-              sh "dotnet clean ${DOT_NET_CORE_APP_SLN}"
-              sh "dotnet build ${DOT_NET_CORE_APP_SLN} --configuration ${DOT_NET_CORE_BUILD_CONFIGURATION}"
-            }
+            sh "dotnet restore ${DOT_NET_CORE_APP_SLN}"
+            sh "dotnet clean ${DOT_NET_CORE_APP_SLN}"
+            sh "dotnet build ${DOT_NET_CORE_APP_SLN} --configuration ${DOT_NET_CORE_BUILD_CONFIGURATION}"
           }
         }
 
@@ -68,9 +64,7 @@ pipeline {
 
             stage("Other Tests") {
               steps {
-                container('dotnetcore') {
-                  sh "dotnet ${DOT_NET_CORE_APP_DLL}"
-                }
+                sh "dotnet ${DOT_NET_CORE_APP_DLL}"
               }
             }
           }
