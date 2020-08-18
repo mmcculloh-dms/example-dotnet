@@ -36,7 +36,6 @@ pipeline {
         stage("E2E Test") {
           steps {
             echo "Run E2E tests on DemoApp"
-            CoolFunctionality()
           }
         }
       }
@@ -49,12 +48,6 @@ pipeline {
       steps {
         echo "Package DemoApp and ship to payload bay."
         sleep 2
-      }
-    }
-
-    stage("Finalize") {
-      steps {
-        Finalize()
       }
     }
     
