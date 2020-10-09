@@ -9,7 +9,7 @@ pipeline {
             spec:
                 containers:
                     - name: node12
-                      image: timbru31/java-node
+                      image: nathanfriend/java-node-git
                       tty: true
                       command:
                         - cat
@@ -26,6 +26,7 @@ pipeline {
             steps {
               withSpaceport {
                 sh 'printenv'
+                analyzeCommits()
               }
             }
         }
