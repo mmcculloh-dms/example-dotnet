@@ -26,6 +26,7 @@ pipeline {
             steps {
               withSpaceport {
                 sh 'printenv'
+                analyzeCommits()
               }
             }
         }
