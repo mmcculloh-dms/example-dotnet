@@ -6,7 +6,7 @@ namespace appOne
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World from AppOne!");
+            Console.WriteLine("Hello World!");
         }
     }
 }
