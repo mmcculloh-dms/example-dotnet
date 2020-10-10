@@ -22,11 +22,10 @@ pipeline {
         DEFAULT_CONTAINER = "node12"
     }
     stages {
-        stage('Blah') {
+        stage('Build') {
             steps {
               withSpaceport {
-                sh 'printenv'
-                analyzeCommits()
+                echo 'hello'
               }
             }
         }
